@@ -1,0 +1,8 @@
+#vim swop
+*.sw[op]
+#objects
+*.o
+#core
+/core
+#binary
+/main
