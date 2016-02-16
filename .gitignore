@@ -1,12 +1,11 @@
+#ignore anything in root
+/*
+#except sources, tools and Makefile
+!/src
+!/tools
+!/Makefile
+
 #vim swop
 *.sw[op]
 #objects
 *.o
-#core
-/core
-#binary
-/main
-/test
-#build artifacts
-/test.log
-
