@@ -7,3 +7,6 @@
 #binary
 /main
 /test
+#build artifacts
+/test.log
+
