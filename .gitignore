@@ -4,6 +4,7 @@
 !/src
 !/tools
 !/Makefile
+!/.travis.yml
 
 #vim swop
 *.sw[op]

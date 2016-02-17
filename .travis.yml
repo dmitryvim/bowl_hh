@@ -1,0 +1,7 @@
+language: c
+addons:
+  apt:
+    packages:
+      - lcov
+script:
+  - make FLAVOR=coverage gen-test-coverage
