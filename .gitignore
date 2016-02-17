@@ -1,9 +1,11 @@
 #ignore anything in root
 /*
-#except sources, tools and Makefile
+
+#except some 
 !/src
 !/tools
 !/Makefile
+!/Readme.md
 !/.travis.yml
 
 #vim swop
