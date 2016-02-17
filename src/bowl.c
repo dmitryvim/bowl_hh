@@ -2,6 +2,17 @@
 
 #include <string.h>
 
+// Possible frame states
+enum {
+    FIRST,
+    SECOND
+};
+
+// Wrapper which contains throw_state or error.
+// It's like Optional<> in Java.
+// See util.h
+define_err_s(uint8_t, throw_state);
+
 bool
 is_digit(char gc)
 {
@@ -47,6 +58,8 @@ is_zero(char gc)
     return false;
 }
 
+// Given current state and next throw char
+// returns next frame state.
 throw_state_err_s
 next_throw_state(uint8_t state, char gc)
 {
@@ -76,6 +89,12 @@ next_throw_state(uint8_t state, char gc)
 game_state_err_s
 calculate_game_state(const char* game_description)
 {
+    // This function calculates game score.
+    // This is done it three steps:
+    //   - Calculate points per throw.
+    //   - Calculate points per frame (this handles strike and spare).
+    //   - Calculate total score.
+
     game_state_err_s ret = {0};
 
     size_t total_throws = strlen(game_description);
@@ -122,6 +141,7 @@ calculate_game_state(const char* game_description)
         state = next_state.value;
     }
 
+    // Get points per frame
     state = FIRST;
     uint8_t frame = 0;
     for (uint8_t throw = 0; throw < total_throws; throw++) {
@@ -135,6 +155,7 @@ calculate_game_state(const char* game_description)
         ret.value.frame_result[frame][state] = throw_sym[throw];
         ret.value.frame_score[frame] += throw_score[throw];
 
+        // Special logic for strike an spare
         if (is_strike(gc)) {
             ret.value.frame_score[frame] += throw_score[throw + 1];
             ret.value.frame_score[frame] += throw_score[throw + 2];
@@ -142,6 +163,7 @@ calculate_game_state(const char* game_description)
             ret.value.frame_score[frame] += throw_score[throw + 1];
         }
 
+        // Last frames checks
         if (frame == 9) {
             if (is_strike(gc)) {
                 ret.value.frame_result[frame][state + 1] = throw_sym[++throw];
@@ -173,6 +195,7 @@ calculate_game_state(const char* game_description)
         }
     }
 
+    // calculate total scores
     for (uint8_t frame = 0; frame < 10; frame++) {
         ret.value.total += ret.value.frame_score[frame];
     }
