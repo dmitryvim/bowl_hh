@@ -3,5 +3,10 @@ addons:
   apt:
     packages:
       - lcov
+  artifacts:
+    paths:
+      - ./test.log
+      - ./coverage_html
+
 script:
   - make FLAVOR=coverage gen-test-coverage

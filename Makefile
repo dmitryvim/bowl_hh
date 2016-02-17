@@ -41,7 +41,7 @@ test-$(FLAVOR): $(PROG_OBJ) $(TEST_OBJ)
 	$(CC) $(CFLAGS) -o $@ $+ $(LIBS)
 
 run-test: test-$(FLAVOR)
-	./test-$(FLAVOR)
+	./test-$(FLAVOR) | tee test.log
 
 ifeq ($(FLAVOR), coverage)
 gen-test-coverage: run-test
