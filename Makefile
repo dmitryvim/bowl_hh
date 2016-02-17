@@ -45,7 +45,7 @@ run-test: test-$(FLAVOR)
 
 ifeq ($(FLAVOR), coverage)
 gen-test-coverage: run-test
-	lcov --capture --directory coverage --output-file coverage.info
+	lcov --capture --directory coverage --base-directory . --output-file coverage.info
 	genhtml coverage.info --output-directory coverage_html
 else
 gen-test-coverage:
