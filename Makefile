@@ -7,6 +7,7 @@ CFLAGS += -Wall -Wextra
 CFLAGS += -MMD
 
 debug_CFLAGS = -g
+coverage_CFLAGS = -g -fprofile-arcs -ftest-coverage 
 
 CFLAGS += $($(FLAVOR)_CFLAGS)
 
@@ -42,9 +43,24 @@ test-$(FLAVOR): $(PROG_OBJ) $(TEST_OBJ)
 run-test: test-$(FLAVOR)
 	./test-$(FLAVOR)
 
+ifeq ($(FLAVOR), coverage)
+gen-test-coverage: run-test
+	lcov --quiet --capture --directory coverage --output-file coverage.info
+	lcov --quiet -r coverage.info $(TEST_SRC) -o coverage.info
+	genhtml --quiet coverage.info --output-directory coverage_html
+	lcov --summary coverage.info
+else
+gen-test-coverage:
+	$(error gen-test-coverage target only avalable when FLAVOR=coverage)
+endif
+
 clean:
-	-rm -rf ./$(PROG)-* ./test-* ./debug ./release ./profile
+	-rm -rf ./$(PROG)-* \
+		./test-* \
+		./debug ./release ./coverage \
+		./coverage_html coverage.info \
+		test.log
 
 -include $(PROG_DEP)
 
-.PHONY: all clean prog test run-test
+.PHONY: all clean prog test run-test gen-test-coverage
