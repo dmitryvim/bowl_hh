@@ -46,9 +46,7 @@ run-test: test-$(FLAVOR)
 ifeq ($(FLAVOR), coverage)
 gen-test-coverage: run-test
 	lcov --capture --directory coverage --output-file coverage.info
-	lcov -r coverage.info $(TEST_SRC) -o coverage.info
 	genhtml coverage.info --output-directory coverage_html
-	lcov --summary coverage.info
 else
 gen-test-coverage:
 	$(error gen-test-coverage target only avalable when FLAVOR=coverage)
