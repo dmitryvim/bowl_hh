@@ -2,7 +2,7 @@ PROG = bowl
 
 FLAVOR ?= debug
 
-CFLAGS = -std=gnu99
+CFLAGS = -std=gnu99 -Wno-missing-field-initializers
 CFLAGS += -Wall -Wextra
 CFLAGS += -MMD
 
