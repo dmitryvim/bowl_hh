@@ -47,6 +47,13 @@ typedef struct {
         return (fail != 0); \
     }
 
-#define atto_assert(test) do { if (!(test)) return FAIL; } while (0)
+#define atto_assert(test) do \
+    { \
+        if (!(test)) \
+        { \
+            printf("%s:%d:0: warning: assertion %s failed\n", __FILE__, __LINE__, #test); \
+            return FAIL; \
+        } \
+    } while (0)
 
 #endif //__ATTOTEST_H__
