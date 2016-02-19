@@ -25,10 +25,11 @@ int main(int argc, char **argv) {
 
     printf("Finished: %s\n", state.value.finished ? "yes" : "no");
     for (int i = 0; i < 10; ++i) {
-        printf("%2d | %3s: %d\n",
+        printf("%2d | %2.2s %d\n",
                i + 1,
-               state.value.frame_result[i],
+               &state.value.throw_char[i * 2],
                state.value.frame_score[i]);
+
     }
     printf("Total: %d\n", state.value.total);
 
